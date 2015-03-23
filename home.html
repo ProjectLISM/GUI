@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Product recommendation</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+</head>
+<body>
+	<form method='POST' action='http://127.0.0.1:5000/'>
+	<input type="text" id="product" name="product"/>	
+	<button id="butt" >See the product</button>
+	<div id="div1"><h2>Related Product:</h2></div>
+	
+	<script type="text/javascript">
+	$('#butt').click(function(){
+		var product = $('#product').val();	
+		alert('Inside function');
+		$.ajax({
+			//dataType: "json",
+			url: 'http://127.0.0.1:5000/_get_data',
+			method: 'POST',
+			data: 'product='+product,
+			success:  $.getJSON("http://127.0.0.1:5000/_get_data", function(result){
+				    $.each(result, function(i, field){
+					$("#div1").append(field + " ");
+				    });
+			}),
+			error: function(error) {
+				$('#div1').html(error);
+				alert(error);
+			},
+		
+		});
+	alert('Exiting Ajax');
+	return false;
+	});
+	</script>    
+
+	</form>	
+</body>
+</html>
